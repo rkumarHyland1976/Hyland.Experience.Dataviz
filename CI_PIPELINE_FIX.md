@@ -5,8 +5,8 @@
 The GitHub Actions CI pipeline was failing on the **code-quality** job with the following error:
 
 ```
-The Run code analysis step failed because `dotnet tool install -g roslyn ator.commandline` returned: 
-"Package roslyn ator.commandline is not a .NET tool."
+The Run code analysis step failed because `dotnet tool install -g roslynator.commandline` returned:
+"Package roslynator.commandline is not a .NET tool."
 ```
 
 **Error Details:**
@@ -19,11 +19,7 @@ The Run code analysis step failed because `dotnet tool install -g roslyn ator.co
 
 ## Root Cause
 
-The workflow was attempting to install the `roslynator.commandline` tool to analyze C# code. However:
-
-1. The tool package name may not have been correct for the NuGet registry
-2. The tool installation was failing silently
-3. This was blocking the entire CI pipeline from completing
+The workflow used `roslynator.commandline`, which is not installable as a .NET global tool. The failed installation stopped the job before dependency restore and the SonarCloud scan.
 
 ---
 
@@ -33,12 +29,12 @@ The workflow was attempting to install the `roslynator.commandline` tool to anal
 
 **File:** `.github/workflows/ci.yaml`
 
-**Removed the following steps from the `code-quality` job:**
+**Updated the code analysis step in `.github/workflows/ci.yaml` to install the actual .NET CLI tool package:**
 ```yaml
 - name: Run code analysis
   run: |
-    dotnet tool install -g roslynator.commandline
-    roslynator analyze src --severity info
+    dotnet tool install -g roslynator.dotnet.cli --version 1.0.1
+    roslynator analyze Hyland.Experience.SampleProject.sln --severity-level info
 ```
 
 **Kept the following:**
@@ -48,17 +44,17 @@ The workflow was attempting to install the `roslynator.commandline` tool to anal
 
 ### Rationale
 
-1. **SonarCloud** already provides comprehensive code quality analysis
-2. Roslynator was redundant with SonarCloud
-3. Removing the failing step simplifies the workflow
-4. The pipeline focuses on proven, reliable tools
+1. The corrected package is published as an installable .NET CLI tool.
+2. Pinning the tool version makes CI installs repeatable.
+3. Roslynator and SonarCloud analysis both remain enabled.
 
 ---
 
 ## Code Quality Analysis Still Active ✅
 
-The `code-quality` job still performs code quality analysis through:
+The `code-quality` job performs code quality analysis through:
 
+- **Roslynator**: C# static analysis via the pinned `roslynator.dotnet.cli` tool
 - **SonarCloud Scan**: Comprehensive static analysis
   - Code smells detection
   - Bug detection
@@ -221,8 +217,8 @@ These would run during `dotnet build` automatically.
 ## Summary
 
 ✅ **Status:** CI Pipeline Fixed and Ready  
-✅ **Issue:** Roslynator tool installation removed  
-✅ **Solution:** Simplified workflow using SonarCloud  
+✅ **Issue:** Invalid Roslynator package ID for .NET tool installation
+✅ **Solution:** Install the pinned `roslynator.dotnet.cli` package
 ✅ **Result:** Pipeline now completes successfully  
 
 The CI/CD pipeline is now fully functional and ready for development! 🚀

@@ -88,6 +88,11 @@ jobs:
       - name: Build for analysis
         run: dotnet build -c Release --no-restore
 
+      - name: Run code analysis
+        run: |
+          dotnet tool install -g roslynator.dotnet.cli --version 1.0.1
+          roslynator analyze Hyland.Experience.SampleProject.sln --severity-level info
+
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
