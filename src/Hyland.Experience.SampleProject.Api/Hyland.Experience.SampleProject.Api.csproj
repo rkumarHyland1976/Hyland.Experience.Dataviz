@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Hyland.Experience.SampleProject.Api</AssemblyName>
+    <RootNamespace>Hyland.Experience.SampleProject.Api</RootNamespace>
+    <DockerDefaultTargetOS>linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hyland.Experience.SampleProject.Domain\Hyland.Experience.SampleProject.Domain.csproj" />
+    <ProjectReference Include="..\Hyland.Experience.SampleProject.Infrastructure\Hyland.Experience.SampleProject.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.6.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.6.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.6.0" />
+    <PackageReference Include="Prometheus.NetCore" Version="1.2.1" />
+    <PackageReference Include="HealthChecks.UI" Version="7.0.0" />
+  </ItemGroup>
+
+</Project>

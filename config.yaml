@@ -1,0 +1,25 @@
+global:
+  projectName: sample-project
+  environment: dev
+  region: us-east-1
+  
+database:
+  engine: postgres
+  version: "16.1"
+  
+kubernetes:
+  namespace: default
+  imagePullPolicy: IfNotPresent
+  
+docker:
+  registry: ghcr.io
+  imageName: hyland/sample-project
+  
+terraform:
+  version: 1.6.0
+  backend: s3
+  
+monitoring:
+  enabled: true
+  retention: 30
+  alerting: true
