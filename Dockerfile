@@ -7,8 +7,6 @@ WORKDIR /src
 COPY ["*.sln", "."]
 COPY ["src/", "src/"]
 COPY ["test/", "test/"]
-COPY ["*.props", "*.targets", "."]
-COPY ["Directory.Build.props", "Directory.Build.targets", "Packages.props", "."]
 
 # Restore dependencies
 RUN dotnet restore
@@ -16,13 +14,11 @@ RUN dotnet restore
 # Build the solution
 RUN dotnet build -c Release --no-restore
 
-# Run tests
-RUN dotnet test -c Release --no-build --logger "trx;LogFileName=test-results.trx" /p:CollectCoverage=true /p:CoverageFormat=opencover
+# Run unit tests (component tests need a Docker daemon and run in CI instead)
+RUN dotnet test test/Hyland.Experience.SampleProject.Api.UnitTests -c Release --no-build --logger "trx;LogFileName=test-results.trx"
 
 # Publish API
 RUN dotnet publish src/Hyland.Experience.SampleProject.Api/Hyland.Experience.SampleProject.Api.csproj -c Release --no-build -o /app/publish
-
----
 
 # Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime

@@ -51,12 +51,12 @@ variable "tags" {
 variable "database" {
   description = "Database configuration"
   type = object({
-    engine               = string
-    engine_version       = string
-    instance_class       = string
-    allocated_storage    = number
+    engine                = string
+    engine_version        = string
+    instance_class        = string
+    allocated_storage     = number
     max_allocated_storage = number
-    multi_az             = bool
+    multi_az              = bool
   })
   default = {
     engine                = "postgres"

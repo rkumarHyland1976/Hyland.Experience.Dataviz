@@ -1,6 +1,6 @@
-environment = "staging"
+environment      = "staging"
 eks_cluster_name = "eks-staging-cluster"
-replicas = 3
+replicas         = 3
 
 database = {
   engine                = "postgres"
@@ -11,8 +11,8 @@ database = {
   multi_az              = true
 }
 
-enable_monitoring = true
-enable_encryption = true
+enable_monitoring  = true
+enable_encryption  = true
 log_retention_days = 14
 
 tags = {

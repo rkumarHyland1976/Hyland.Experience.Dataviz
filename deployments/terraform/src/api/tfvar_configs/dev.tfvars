@@ -1,6 +1,6 @@
-environment = "dev"
+environment      = "dev"
 eks_cluster_name = "eks-dev-cluster"
-replicas = 2
+replicas         = 2
 
 database = {
   engine                = "postgres"
@@ -11,8 +11,8 @@ database = {
   multi_az              = false
 }
 
-enable_monitoring = true
-enable_encryption = true
+enable_monitoring  = true
+enable_encryption  = true
 log_retention_days = 7
 
 tags = {

@@ -40,16 +40,16 @@ resource "aws_db_instance" "api" {
   allocated_storage     = var.database.allocated_storage
   max_allocated_storage = var.database.max_allocated_storage
   storage_encrypted     = var.enable_encryption
-  
+
   db_name  = "sampledb"
   username = "dbadmin"
   password = random_password.db_password.result
 
   db_subnet_group_name   = aws_db_subnet_group.api.name
   vpc_security_group_ids = [aws_security_group.rds.id]
-  
-  multi_az               = var.database.multi_az
-  skip_final_snapshot    = var.environment != "production"
+
+  multi_az                  = var.database.multi_az
+  skip_final_snapshot       = var.environment != "production"
   final_snapshot_identifier = "${var.project_name}-db-final-snapshot-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
 
   enabled_cloudwatch_logs_exports = ["postgresql"]

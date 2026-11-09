@@ -1,3 +1,7 @@
+{{- $envMap := dict }}
+{{- range .Values.env }}
+{{- $_ := set $envMap .name .value }}
+{{- end }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,7 +10,7 @@ metadata:
   labels:
     {{- include "sample-api.labels" . | nindent 4 }}
 data:
-  ASPNETCORE_ENVIRONMENT: "{{ .Values.env | where \"name\" \"ASPNETCORE_ENVIRONMENT\" | first | .value | default \"Production\" }}"
-  LOG_LEVEL: "{{ .Values.env | where \"name\" \"LOG_LEVEL\" | first | .value | default \"Information\" }}"
+  ASPNETCORE_ENVIRONMENT: "{{ get $envMap "ASPNETCORE_ENVIRONMENT" | default "Production" }}"
+  LOG_LEVEL: "{{ get $envMap "LOG_LEVEL" | default "Information" }}"
   API_VERSION: "{{ .Chart.AppVersion }}"
-  DEPLOYMENT_DATE: "{{ now | date \"2006-01-02T15:04:05Z07:00\" }}"
+  DEPLOYMENT_DATE: "{{ now | date "2006-01-02T15:04:05Z07:00" }}"

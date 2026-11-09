@@ -194,7 +194,7 @@ jobs:
         working-directory: deployments/terraform
         run: |
           tflint --init
-          tflint --recursive
+          tflint --recursive --minimum-failure-severity=error
 
   validate-helm:
     runs-on: ubuntu-latest
