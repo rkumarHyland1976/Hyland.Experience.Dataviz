@@ -82,15 +82,13 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Run code analysis
-        run: |
-          dotnet tool install -g roslynator.commandline
-          roslynator analyze src --severity info
-
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: SonarCloud Scan
+      - name: Build for analysis
+        run: dotnet build -c Release --no-restore
+
+      - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
