@@ -1,6 +1,9 @@
 using Serilog;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using OpenTelemetry.Instrumentation.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,7 +53,8 @@ builder.Services.AddHealthChecks()
     .AddCheck("self", () => HealthCheckResult.Healthy());
 
 // MediatR
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+var assembly = typeof(Program).Assembly;
+builder.Services.AddMediatR(assembly);
 
 var app = builder.Build();
 
